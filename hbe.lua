@@ -1,3 +1,5 @@
+--m to toggle notifications
+
 _G.Reach = 5  -- Default reach value (can be increased/decreased)
 _G.KeyBindHigher = Enum.KeyCode.R  -- Keybind to increase reach
 _G.KeyBindLower = Enum.KeyCode.E  -- Keybind to decrease reach
@@ -7,6 +9,7 @@ _G.ShowOwnTeam = true  -- Set to true to show hitboxes for your team, false for 
 _G.HitboxTransparency = 0.8  -- Transparency level for the hitboxes
 _G.HitboxColor = BrickColor.new("Bright blue")  -- Color for the hitboxes
 _G.WhiteListEnabled = true
+local notif = false;
 
 local player = game.Players.LocalPlayer
 local UserInputService = game:GetService("UserInputService")
@@ -62,6 +65,10 @@ end
 local function onInputBegan(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
+    if input.KeyCode == Enum.KeyCode.M then
+        notif = not notif;
+    end
+
     if _G.WhiteListEnabled == true then
         if (input.KeyCode == Enum.KeyCode.F) then
             local mouseTarget = player:GetMouse().Target
@@ -70,19 +77,24 @@ local function onInputBegan(input, gameProcessedEvent)
             if humanoid and playerr then
                 if table.find(whitelisted, playerr) then
                     table.remove(whitelisted, table.find(whitelisted, playerr))
+                    if notif then
+                        
                     game.StarterGui:SetCore("SendNotification", {
                         Title = "Reach",
                         Text = "Reach disabled on "..playerr.Name,
                         Duration = 1
                     })
+                    end 
                     playerr.Character:FindFirstChild("HitboxVisualizer"):Destroy()
                 else
                     table.insert(whitelisted, playerr)
+                    if notif then
                     game.StarterGui:SetCore("SendNotification", {
                         Title = "Reach",
                         Text = "Reach enabled on "..playerr.Name,
                         Duration = 1
                     })
+                    end
                 end
             end
         end
@@ -91,11 +103,14 @@ local function onInputBegan(input, gameProcessedEvent)
             _G.ReachOff = not _G.ReachOff; 
             local abc = "Enabled"
             if _G.ReachOff then abc = "Disabled"; end
-            game.StarterGui:SetCore("SendNotification", {
-                Title = "Reach",
-                Text = "Reach is "..abc,
-                Duration = 1
-            })
+            if notif then
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Reach",
+                    Text = "Reach is "..abc,
+                    Duration = 1
+                })
+            end
+
         end
     end
 
@@ -104,27 +119,34 @@ local function onInputBegan(input, gameProcessedEvent)
         if input.KeyCode == _G.KeyBindHigher then
             -- Increase reach by 0.5
             _G.Reach = math.min(_G.Reach + 0.5, 10)  -- Optional: cap reach at 10 (or any max value)
+            if notif then
             game.StarterGui:SetCore("SendNotification", {
                 Title = "Reach",
                 Text = "Reach set to " .. _G.Reach,
                 Duration = 1
             })
+            end
         elseif input.KeyCode == _G.KeyBindLower then
             -- Decrease reach by 0.5, with a minimum of 0.5
             _G.Reach = math.max(_G.Reach - 0.5, 0.5)
-            game.StarterGui:SetCore("SendNotification", {
-                Title = "Reach",
-                Text = "Reach set to " .. _G.Reach,
-                Duration = 1
-            })
+            if notif then
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Reach",
+                    Text = "Reach set to " .. _G.Reach,
+                    Duration = 1
+                })
+            end
+
         elseif input.KeyCode == _G.KeyBindTransparencyToggle then
             -- Toggle transparency between 0.5 and 1
             _G.HitboxTransparency = (_G.HitboxTransparency == 1) and 0.5 or 1
+            if notif then
             game.StarterGui:SetCore("SendNotification", {
                 Title = "Transparency",
                 Text = "Hitbox transparency set to " .. _G.HitboxTransparency,
                 Duration = 1
             })
+            end 
         end
     end
 end
@@ -156,10 +178,13 @@ player.CharacterAdded:Connect(function(char)
             v.Character:FindFirstChild("HitboxVisualizer"):Destroy()
         end
         whitelisted = {}
+        if notif then
+
         game.StarterGui:SetCore("SendNotification", {
             Title = "You died",
             Text = "Disabling hitbox for all players",
             Duration = 1
         })
+        end 
     end)
 end)
