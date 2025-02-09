@@ -1,5 +1,3 @@
---credits: !theo#0001
---credits: !theo#0001
 local ver = "1.1.0"
 local changelog = game:HttpGet("https://raw.githubusercontent.com/TheoTheEpic/AquaLib/main/Changelog.txt") or "UNABLE TO GET CHANGELOG"
 
@@ -1261,19 +1259,18 @@ lib.createWindow = function(name, title, draggable)
 
 		wait(0.1)
 		local tweenservice = game:GetService("TweenService")
-		local info2 = TweenInfo.new(.8, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+		local info2 = TweenInfo.new(.15, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
 		local tab = defualt_tab
 		local unselected = {
 			TextColor3 = Color3.fromRGB(245, 247, 244)
 		}
 		local selected = {
-			TextColor3 = Color3.fromRGB(211, 178, 183)
+			TextColor3 = Color3.fromHex("1e88e5");
 		}
 		local hover = {
-			TextColor3 = Color3.fromRGB(235, 235, 235)
+			TextColor3 = Color3.fromRGB(130, 156, 179);
 		}
-		--print(tab)
-		--print(defualt_tab)
+
 		tweenservice:Create(TabList[tab], info2, selected):Play()
 		local deb = false
 		for i,v in pairs(TabList:GetChildren())do
@@ -1295,21 +1292,21 @@ lib.createWindow = function(name, title, draggable)
 							if tab ~= nil then
 								TabHolder[tab]:TweenSize(UDim2.new(0, 0, 0, 300), "Out", "Quint", .4, false)
 								tweenservice:Create(TabList[tab], info2, unselected):Play()
-								wait(.4)
+								wait(.1)
 								TabHolder[tab].Visible = false
 							end
 							tab = v.Name
 							TabHolder[tab].Visible = true
 							tweenservice:Create(TabList[tab], info2, selected):Play()
 							TabHolder[tab]:TweenSize(UDim2.new(0, 421,0, 300), "Out", "Quint", .4, false)
-							wait(.3)
+							wait(.1)
 							deb = false
 						end
 					end)
 				else
 					v.MouseButton1Down:Connect(function()
 						tweenservice:Create(v, info2, selected):Play()
-						wait(.5)
+						wait(.1)
 						tweenservice:Create(v, info2, unselected):Play()
 					end)
 				end
@@ -1359,20 +1356,7 @@ lib.createWindow = function(name, title, draggable)
 	elseif draggable == true then
 		coroutine.wrap(DragScript)()
 	end
-
-	if isfile('AquaLibVer.txt') then
-		if readfile('AquaLibVer.txt') == ver then
-		else
-			print(changelog)
-			writefile('AquaLibVer.txt', ver)
-			WindowLib.notification("Aqua | New Version", changelog)
-		end
-	else
-		writefile('AquaLibVer.txt', ver)
-		WindowLib.notification("Aqua | Welcome", "This seems to be your first time using Aqua Library. Check us out on GitHub at github.com/TheoTheEpic/AquaLib (copied to clipboard)!")
-		setclipboard('https://github.com/TheoTheEpic/AquaLib')
-	end
-
+	
 	WindowLib.Toggle = function()
 		ContainerFrame.Visible = not ContainerFrame.Visible;
 	end
