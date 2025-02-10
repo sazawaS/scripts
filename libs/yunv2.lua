@@ -1179,8 +1179,8 @@ function initLibrary()
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                         FontSize = Enum.FontSize.Size12,
                         TextSize = 12,
-                        TextColor3 = Color3.fromRGB(255, 255, 255),
-                        Text = valueText:gsub("%[VALUE%]", tostring(default)),
+                        TextColor3 = Color3.fromRGB(151, 151, 151),
+                        Text = valueText .. " " .. tostring(default); 
                         Font = Enum.Font.Gotham,
                         Parent = slider
                     })
@@ -1192,7 +1192,7 @@ function initLibrary()
 
 
                         value = math.floor((((max - min) * sizeX) + min) * decimals) / decimals
-                        title.Text = valueText:gsub("%[VALUE%]", tostring(value))
+                        title.Text = valueText .. " " .. tostring(value); 
 
 
                         if flag then 
