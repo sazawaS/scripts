@@ -71,7 +71,6 @@ function initLibrary()
         local g = math.floor(color.g * 255)
         local b = math.floor(color.b * 255)
 
-
         return r, g, b
     end
 
@@ -413,6 +412,9 @@ function initLibrary()
 
         function windowTypes:Hide()
             gui.Enabled = false
+        end
+        function windowTypes:Destroy()
+            gui:Destroy();
         end
 
 
