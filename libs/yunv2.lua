@@ -1626,7 +1626,7 @@ function initLibrary()
                     local name = options.name or "Dropdown"
                     local content = options.content or {}
                     local multiChoice = options.multiChoice or false
-                    local default = (options.default and table.find(content, options.default)) or (multiChoice and {} or nil)
+                    local default = (options.default) or (multiChoice and {} or nil)
                     local flag = options.flag
                     local callback = options.callback or function() end
 
